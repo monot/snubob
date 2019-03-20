@@ -27,13 +27,13 @@ def get_menu():
                 # print(flag)
                 continue
             rest_key = tr.select("td")[0].text
-            rest_val = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "").replace("</span>", "</span> ")
+            rest_val = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "").replace("</span>", " ").replace('<span class="price">', "").replace('<span class="supple">', " ").replace("<br/>", "\n").replace("&amp;", " & ")
 
-            if flag.encode('utf-8') == "아침":
+            if flag == "아침":
                 breakfast[rest_key] = rest_val
-            if flag.encode('utf-8') == "점심":
+            if flag == "점심":
                 lunch[rest_key] = rest_val
-            if flag.encode('utf-8') == "저녁":
+            if flag == "저녁":
                 dinner[rest_key] = rest_val
     return (breakfast, lunch, dinner)
 
@@ -53,7 +53,7 @@ def telephone():
     }
     req = request.get_json()
     rest_name = req["action"]["detailParams"]["restaurant_name"]["value"]
-    answer = "{}의 전화번호는<br>{} 입니다.".format(rest_name.encode('utf-8'), phone[rest_name.encode('utf-8')])
+    answer = "{}의 전화번호는\n{} 입니다.".format(rest_name, phone[rest_name])
     res = {
         "version": "2.0",
         "template": {
@@ -72,10 +72,10 @@ def telephone():
 def menu():
     req = request.get_json()
     rest_name = req["action"]["detailParams"]["restaurant_name"]["value"]
-    sys_date = req["action"]["detailParams"]["sys_date"]["value"]
+    #sys_date = req["action"]["detailParams"]["sys_date"]["value"]
     
     breakfast, lunch, dinner = get_menu()
-    answer = "{}의 오늘 메뉴는 다음과 같습니다.<br><br>{}{}{}".format(rest_name.encode('utf-8'), breakfast[rest_name.encode('utf-8')], lunch[rest_name.encode('utf-8')], dinner[rest_name.encode('utf-8')])
+    answer = "{}의 오늘 메뉴는 다음과 같습니다.\n\n==점심==\n\n{}\n\n==저녁==\n\n{}".format(rest_name, lunch[rest_name], dinner[rest_name])
     res = {
         "version": "2.0",
         "template": {
