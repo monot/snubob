@@ -22,12 +22,11 @@ with urllib.request.urlopen("http://mini.snu.kr/cafe/today/") as url:
             print(flag)
             print("====")
             continue
-        # print(tr.select("td")[0].text)
-        # print(str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", ""))
-        menu[tr.select("td")[0].text] = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "")
+        print(tr.select("td")[0].text)
+        print(str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "").replace("</span>", "</span> "))
+        # menu[tr.select("td")[0].text] = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "")
     
     
-    pprint(menu)
+    # pprint(menu)
 
-    menu["302동"]
-
+    # menu["302동"]
