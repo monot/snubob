@@ -75,6 +75,8 @@ def telephone():
     }
     return jsonify(res)
 
+# 메뉴를 불러옴.
+# 패러미터로 restaurant_name, ***를 사용
 @app.route('/api/menu', methods=['POST'])
 def menu():
     req = request.get_json()
@@ -82,7 +84,19 @@ def menu():
     #sys_date = req["action"]["detailParams"]["sys_date"]["value"]
     
     breakfast, lunch, dinner = get_menu()
-    answer = "{}의 오늘 메뉴는 다음과 같습니다.\n\n==점심==\n\n{}\n\n==저녁==\n\n{}".format(rest_name, lunch[rest_name], dinner[rest_name])
+    breakfast_menu = breakfast.get(rest_name, 0)
+    lunch_menu = lunch.get(rest_name, 0)
+    dinner_menu = dinner.get(rest_name, 0)
+
+    menu = ""
+    if breakfast_menu != 0:
+        menu += "\n\n== 아침 ==\n\n{}".format(breakfast_menu)
+    if lunch_menu != 0:
+        menu += "\n\n== 점심 ==\n\n{}".format(lunch_menu)
+    if dinner_menu != 0:
+        menu += "\n\n== 저녁 ==\n\n{}".format(dinner_menu)
+
+    answer = "{}의 오늘 메뉴는 다음과 같습니다.{}".format(rest_name, menu)
     res = {
         "version": "2.0",
         "template": {
@@ -98,5 +112,7 @@ def menu():
     return jsonify(res)
 
     
-
-app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)))
+if __name__=="__main__":
+    # app.run() # production
+	app.run(debug=True) # for debugging purpose
+	# app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)))
