@@ -19,7 +19,7 @@ with urllib.request.urlopen("http://mini.snu.kr/cafe/today/") as url:
             # print(flag)
             continue
         rest_key = tr.select("td")[0].text
-        rest_val = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "").replace("</span>", "</span> ")
+        rest_val = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "").replace("</span>", " ").replace('<span class="price">', "").replace('<span class="supple">', " ").replace("<br/>", "\n").replace("&amp;", " & ").replace("\n\n", "\n")
 
         if flag == "아침":
             breakfast[rest_key] = rest_val
@@ -28,4 +28,4 @@ with urllib.request.urlopen("http://mini.snu.kr/cafe/today/") as url:
         if flag == "저녁":
             dinner[rest_key] = rest_val
 
-pprint(dinner)
+pprint(lunch)
