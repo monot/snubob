@@ -27,7 +27,7 @@ def get_menu():
                 # print(flag)
                 continue
             rest_key = tr.select("td")[0].text
-            rest_val = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "").replace("</span>", " ").replace('<span class="price">', "").replace('<span class="supple">', " ").replace("<br/>", "\n").replace("&amp;", " & ")
+            rest_val = str(tr.select("td")[1]).replace("<td class=\"menu\">", "").replace("</td>", "").replace("</span>", " ").replace('<span class="price">', "").replace('<span class="supple">', " ").replace("<br/>", "\n").replace("&amp;", " & ").replace("\n\n", "\n")
 
             if flag == "아침":
                 breakfast[rest_key] = rest_val
@@ -92,11 +92,11 @@ def menu():
 
     menu = ""
     if breakfast_menu != 0:
-        menu += "\n\n== 아침 ==\n\n{}".format(breakfast_menu)
+        menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
     if lunch_menu != 0:
-        menu += "\n\n== 점심 ==\n\n{}".format(lunch_menu)
+        menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
     if dinner_menu != 0:
-        menu += "\n\n== 저녁 ==\n\n{}".format(dinner_menu)
+        menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
 
     answer = "{}의 오늘 메뉴는 다음과 같습니다.{}".format(rest_name, menu)
     res = {
