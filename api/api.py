@@ -90,10 +90,6 @@ def telephone():
 @app.route('/api/menu', methods=['POST'])
 def menu():
     req = request.get_json()
-    # rest_name = req["action"]["detailParams"]["restaurant_name"]["value"]
-    # sys_date = req["action"]["detailParams"]["sys.date"]["value"]
-    # sys_timep = req["action"]["detailParams"]["sys.time.period"]["value"]
-    
     try:
         rest_name = req["action"]["detailParams"]["restaurant_name"]["value"]
     except KeyError:
@@ -108,62 +104,25 @@ def menu():
         sys_timep = req["action"]["detailParams"]["sys.time.period"]["value"]
     except KeyError:
         sys_timep = 0
-        
-    # if sys_date != 0:
-    #     if sys_date == "오늘":
-    #         breakfast, lunch, dinner = get_menu()
-    #         date_string = "오늘"
-    #     elif sys_date ==  "내일":
-    #         breakfast, lunch, dinner = get_menu(1)
-    #         date_string = "내일"
-    # else:
-    #     breakfast, lunch, dinner = get_menu()
-    #     date_string = "오늘"
-
-    date_string = "오늘"
-    breakfast, lunch, dinner = get_menu()  
+    
+    breakfast, lunch, dinner = get_menu()
     breakfast_menu = breakfast.get(rest_name, 0)
     lunch_menu = lunch.get(rest_name, 0)
     dinner_menu = dinner.get(rest_name, 0)
-    
-    # print(breakfast_menu, lunch_menu, dinner_menu)
-    
-    menu = ""
-    # 시간(점심)이 지정되었을 때
-    if sys_timep != 0:
-        if sys_timep == "아침":
-            if breakfast_menu != 0:
-                menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
-        elif sys_timep == "점심":
-            if lunch_menu != 0:
-                menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
-        elif sys_timep == "저녁":
-            if dinner_menu != 0:
-                menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
-        
-        if menu == "":
-            answer = pyjosa.replace_josa("{}(은)는 {} {}에 쉽니다.".format(rest_name, date_string, sys_timep))
-        else:
-            answer = "{}의 {} {} 메뉴는 다음과 같습니다.{}".format(rest_name, date_string, sys_timep, menu)
-            
-            
-    else:
 
-        if breakfast_menu != 0:
-            menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
-        if lunch_menu != 0:
-            menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
-        if dinner_menu != 0:
-            menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
-            
-        # print(rest_name, sys_date, sys_timep)
-        # print(menu)
-    
-        if menu == "":
-            answer = pyjosa.replace_josa("{}(은)는 {} 쉽니다.".format(rest_name, date_string))
-        else:
-            answer = "{}의 {} 메뉴는 다음과 같습니다.{}".format(rest_name, date_string, menu)
-        
+    menu = ""
+    if breakfast_menu != 0:
+        menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
+    if lunch_menu != 0:
+        menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
+    if dinner_menu != 0:
+        menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
+
+    if menu == "":
+        answer = pyjosa.replace_josa("{}(은)는 {} 쉽니다.".format(rest_name, date_string))
+    else:
+        answer = "{}의 {} 메뉴는 다음과 같습니다.{}".format(rest_name, date_string, menu)
+
     res = {
         "version": "2.0",
         "template": {
