@@ -109,17 +109,19 @@ def menu():
     except KeyError:
         sys_timep = 0
         
-    if sys_date != 0:
-        if sys_date == "오늘":
-            breakfast, lunch, dinner = get_menu()
-            date_string = "오늘"
-        elif sys_date ==  "내일":
-            breakfast, lunch, dinner = get_menu(1)
-            date_string = "내일"
-    else:
-        breakfast, lunch, dinner = get_menu()
-        date_string = "오늘"
-         
+    # if sys_date != 0:
+    #     if sys_date == "오늘":
+    #         breakfast, lunch, dinner = get_menu()
+    #         date_string = "오늘"
+    #     elif sys_date ==  "내일":
+    #         breakfast, lunch, dinner = get_menu(1)
+    #         date_string = "내일"
+    # else:
+    #     breakfast, lunch, dinner = get_menu()
+    #     date_string = "오늘"
+
+    date_string = "오늘"
+    breakfast, lunch, dinner = get_menu()  
     breakfast_menu = breakfast.get(rest_name, 0)
     lunch_menu = lunch.get(rest_name, 0)
     dinner_menu = dinner.get(rest_name, 0)
