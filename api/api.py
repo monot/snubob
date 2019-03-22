@@ -117,9 +117,9 @@ def menu():
             breakfast, lunch, dinner = get_menu(1)
             date_string = "내일"
     else:
+        breakfast, lunch, dinner = get_menu()
         date_string = "오늘"
-        
-        
+         
     breakfast_menu = breakfast.get(rest_name, 0)
     lunch_menu = lunch.get(rest_name, 0)
     dinner_menu = dinner.get(rest_name, 0)
