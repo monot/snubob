@@ -109,7 +109,8 @@ def menu():
     breakfast_menu = breakfast.get(rest_name, 0)
     lunch_menu = lunch.get(rest_name, 0)
     dinner_menu = dinner.get(rest_name, 0)
-
+    date_string = "오늘"
+    
     menu = ""
     if breakfast_menu != 0:
         menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
