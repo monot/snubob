@@ -89,21 +89,12 @@ def telephone():
 # 패러미터로 restaurant_name, ***를 사용
 @app.route('/api/menu', methods=['POST'])
 def menu():
+    # (POST된) JSON 파일 저장
     req = request.get_json()
-    try:
-        rest_name = req["action"]["detailParams"]["restaurant_name"]["value"]
-    except KeyError:
-        rest_name = 0
-    
-    try:
-        sys_date = req["action"]["detailParams"]["sys.date"]["value"]
-    except KeyError:
-        sys_date = 0
-    
-    try:
-        sys_timep = req["action"]["detailParams"]["sys.time.period"]["value"]
-    except KeyError:
-        sys_timep = 0
+    # 필요한 키 추출. 키가 없으면 0 리턴 (try..except 대신 get 함수 사용)
+    rest_name = req.get("action",{}).get("detailParams",{}).get("restaurant_name",{}).get("value", 0)
+    sys_date = req.get("action",{}).get("detailParams",{}).get("sys_date",{}).get("origin", 0)
+    sys_timep = req.get("action",{}).get("detailParams",{}).get("sys_time_period",{}).get("origin", 0)
     
     date_string = "오늘"
     time_string = ""
@@ -116,15 +107,15 @@ def menu():
     # sys_timep가 0이 아닌 경우, 즉, 아침, 점심, 저녁 등의 키워드가 제공된 경우 
     # 해당 시간대의 메뉴를 제공
     if sys_timep != 0:
-        if sys_timep in ["아침"]:
+        if sys_timep in ["아침", "오전", "모닝", "조식"]:
             time_string = "아침"
             if breakfast_menu != 0:
                 menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
-        if sys_timep in ["점심"]:
+        if sys_timep in ["점심", "오후", "중식"]:
             time_string = "점심"
             if lunch_menu != 0:
                 menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
-        if sys_timep in ["저녁"]:
+        if sys_timep in ["저녁", "밤", "석식"]:
             time_string = "저녁"
             if dinner_menu != 0:
                 menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
