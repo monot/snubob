@@ -94,11 +94,33 @@ def menu():
     # 필요한 키 추출. 키가 없으면 0 리턴 (try..except 대신 get 함수 사용)
     rest_name = req.get("action",{}).get("detailParams",{}).get("restaurant_name",{}).get("value", 0)
     sys_date = req.get("action",{}).get("detailParams",{}).get("sys_date",{}).get("origin", 0)
-    sys_timep = req.get("action",{}).get("detailParams",{}).get("sys_time_period",{}).get("origin", 0)
+    sys_timep = req.get("action",{}).get("detailParams",{}).get("meal_time",{}).get("value", 0)
     
     date_string = "오늘"
     time_string = ""
-    breakfast, lunch, dinner = get_menu()
+    notice = ""
+    breakfast, lunch, dinner = {}
+
+    # 만약 오늘/내일 등이 날짜가 지정되면
+    if sys_date != 0:     
+        if sys_date == "오늘":
+            date_string = "오늘"
+            breakfast, lunch, dinner = get_menu()
+            notice = ""
+        elif sys_date == "내일":
+            date_string = "내일"
+            breakfast, lunch, dinner = get_menu(1)
+            notice = ""
+        else:
+            date_string = "오늘"
+            breakfast, lunch, dinner = get_menu()
+            notice = "오늘과 내일의 메뉴만 제공합니다.\n"
+
+    # 날짜가 지정되지 않으면
+    else:
+        date_string = "오늘"
+        breakfast, lunch, dinner = get_menu()
+    
     breakfast_menu = breakfast.get(rest_name, 0)
     lunch_menu = lunch.get(rest_name, 0)
     dinner_menu = dinner.get(rest_name, 0)
@@ -124,6 +146,7 @@ def menu():
             answer = pyjosa.replace_josa("{}(은)는 {} {}시간에 쉽니다.".format(rest_name, date_string, time_string))
         else:
             answer = "{} {}의 {}메뉴는 다음과 같습니다.{}".format(date_string, rest_name, time_string, menu)
+            answer = notice + answer
 
     # sys_timep가 0인 경우, 즉 아침, 점심, 저녁이 제공되지 않으면 
     # 하루 전체 메뉴를 제공.
@@ -139,6 +162,7 @@ def menu():
             answer = pyjosa.replace_josa("{} {}(은)는 쉽니다.".format(date_string, rest_name))
         else:
             answer = "{}의 {} 메뉴는 다음과 같습니다.{}".format(rest_name, date_string, menu)
+            answer = notice + answer
 
     # 답변을 위한 JSON 
     res = {
