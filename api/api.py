@@ -146,6 +146,7 @@ def menu():
         
         if menu == "":
             answer = pyjosa.replace_josa("{}(은)는 {} {}시간에 쉽니다.".format(rest_name, date_string, time_string))
+            answer = notice + answer
         else:
             answer = "{} {}의 {}메뉴는 다음과 같습니다.{}".format(date_string, rest_name, time_string, menu)
             answer = notice + answer
@@ -162,6 +163,7 @@ def menu():
 
         if menu == "":
             answer = pyjosa.replace_josa("{} {}(은)는 쉽니다.".format(date_string, rest_name))
+            answer = notice + answer
         else:
             answer = "{}의 {} 메뉴는 다음과 같습니다.{}".format(rest_name, date_string, menu)
             answer = notice + answer
