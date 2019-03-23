@@ -120,11 +120,11 @@ def menu():
             time_string = "아침"
             if breakfast_menu != 0:
                 menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
-        elif sys_timep in ["점심"]:
+        if sys_timep in ["점심"]:
             time_string = "점심"
             if lunch_menu != 0:
                 menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
-        elif sys_timep in ["저녁"]:
+        if sys_timep in ["저녁"]:
             time_string = "저녁"
             if dinner_menu != 0:
                 menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
@@ -139,9 +139,9 @@ def menu():
     else:
         if breakfast_menu != 0:
             menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
-        elif lunch_menu != 0:
+        if lunch_menu != 0:
             menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
-        elif dinner_menu != 0:
+        if dinner_menu != 0:
             menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
 
         if menu == "":
