@@ -105,25 +105,51 @@ def menu():
     except KeyError:
         sys_timep = 0
     
+    date_string = "오늘"
+    time_string = ""
     breakfast, lunch, dinner = get_menu()
     breakfast_menu = breakfast.get(rest_name, 0)
     lunch_menu = lunch.get(rest_name, 0)
     dinner_menu = dinner.get(rest_name, 0)
-    date_string = "오늘"
-    
+
     menu = ""
-    if breakfast_menu != 0:
-        menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
-    if lunch_menu != 0:
-        menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
-    if dinner_menu != 0:
-        menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
+    # sys.timep가 0이 아닌 경우, 즉, 아침, 점심, 저녁 등의 키워드가 제공된 경우 
+    # 해당 시간대의 메뉴를 제공
+    if sys.timep != 0:
+        if sys.timep in ["아침"]:
+            time_string = "아침"
+            if breakfast_menu != 0:
+                menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
+        elif sys.timep in ["점심"]:
+            time_string = "점심"
+            if lunch_menu != 0:
+                menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
+        elif sys.timep in ["저녁"]:
+            time_string = "저녁"
+            if dinner_menu != 0:
+                menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
+        
+        if menu == "":
+            answer = pyjosa.replace_josa("{}(은)는 {} {}시간에 쉽니다.".format(rest_name, date_string, time_string))
+        else:
+            answer = "{} {}의 {}메뉴는 다음과 같습니다.{}".format(date_string, rest_name, time_string, menu)
 
-    if menu == "":
-        answer = pyjosa.replace_josa("{}(은)는 {} 쉽니다.".format(rest_name, date_string))
+    # sys.timep가 0인 경우, 즉 아침, 점심, 저녁이 제공되지 않으면 
+    # 하루 전체 메뉴를 제공.
     else:
-        answer = "{}의 {} 메뉴는 다음과 같습니다.{}".format(rest_name, date_string, menu)
+        if breakfast_menu != 0:
+            menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
+        elif lunch_menu != 0:
+            menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
+        elif dinner_menu != 0:
+            menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
 
+        if menu == "":
+            answer = pyjosa.replace_josa("{} {}(은)는 쉽니다.".format(date_string, rest_name))
+        else:
+            answer = "{}의 {} 메뉴는 다음과 같습니다.{}".format(rest_name, date_string, menu)
+
+    # 답변을 위한 JSON 
     res = {
         "version": "2.0",
         "template": {
