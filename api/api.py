@@ -99,7 +99,9 @@ def menu():
     date_string = "오늘"
     time_string = ""
     notice = ""
-    breakfast, lunch, dinner = {}
+    breakfast = {}
+    lunch = {}
+    dinner = {}
 
     # 만약 오늘/내일 등이 날짜가 지정되면
     if sys_date != 0:     
