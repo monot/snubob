@@ -113,18 +113,18 @@ def menu():
     dinner_menu = dinner.get(rest_name, 0)
 
     menu = ""
-    # sys.timep가 0이 아닌 경우, 즉, 아침, 점심, 저녁 등의 키워드가 제공된 경우 
+    # sys_timep가 0이 아닌 경우, 즉, 아침, 점심, 저녁 등의 키워드가 제공된 경우 
     # 해당 시간대의 메뉴를 제공
-    if sys.timep != 0:
-        if sys.timep in ["아침"]:
+    if sys_timep != 0:
+        if sys_timep in ["아침"]:
             time_string = "아침"
             if breakfast_menu != 0:
                 menu += "\n\n== 아침 ==\n{}".format(breakfast_menu)
-        elif sys.timep in ["점심"]:
+        elif sys_timep in ["점심"]:
             time_string = "점심"
             if lunch_menu != 0:
                 menu += "\n\n== 점심 ==\n{}".format(lunch_menu)
-        elif sys.timep in ["저녁"]:
+        elif sys_timep in ["저녁"]:
             time_string = "저녁"
             if dinner_menu != 0:
                 menu += "\n\n== 저녁 ==\n{}".format(dinner_menu)
@@ -134,7 +134,7 @@ def menu():
         else:
             answer = "{} {}의 {}메뉴는 다음과 같습니다.{}".format(date_string, rest_name, time_string, menu)
 
-    # sys.timep가 0인 경우, 즉 아침, 점심, 저녁이 제공되지 않으면 
+    # sys_timep가 0인 경우, 즉 아침, 점심, 저녁이 제공되지 않으면 
     # 하루 전체 메뉴를 제공.
     else:
         if breakfast_menu != 0:
