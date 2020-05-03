@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 from flask import Flask, request, jsonify
 from bs4 import BeautifulSoup
 from pprint import pprint
@@ -188,3 +189,5 @@ if __name__=="__main__":
     # app.run() # production
     app.run(debug=True) # for debugging purpose
     # app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 8080)))
+
+    # app.run(host='0.0.0.0', port=int(sys.argv[1])) # use this for goorm ide (remove others)
